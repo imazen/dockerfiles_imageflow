@@ -25,7 +25,7 @@ RUN sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-
 
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
-  wget git libcurl4-openssl-dev libelf-dev libdw-dev curl ccache libpng-dev libssl-dev  \
+  wget git zip libcurl4-openssl-dev libelf-dev libdw-dev curl ccache libpng-dev libssl-dev  \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \

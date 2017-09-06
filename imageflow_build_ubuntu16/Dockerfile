@@ -37,7 +37,7 @@ RUN apt-get update \
 
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
-  git curl ccache libpng-dev libssl-dev wget \
+  git zip curl ccache libpng-dev libssl-dev wget \
   libcurl4-openssl-dev libelf-dev libdw-dev \
   && apt-get clean -y \
   && apt-get autoremove -y \
