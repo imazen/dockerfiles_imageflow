@@ -148,7 +148,7 @@ ENV PATH=/home/conan/.cargo/bin:$PATH
 
 
 #Install nightly Rust and make default
-RUN RUSTVER="nightly-2017-08-01" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
+RUN RUSTVER="nightly-2017-11-26" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
     && rustup default $RUSTVER \
     && HI=$(rustup which rustc) && HI=${HI%/bin/rustc} && export TOOLCHAIN_DIR=$HI && echo TOOLCHAIN_DIR=$TOOLCHAIN_DIR \
     && sudo rm -rf $TOOLCHAIN_DIR/share/doc \
