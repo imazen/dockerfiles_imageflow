@@ -2,16 +2,12 @@ FROM ubuntu:trusty
 
 MAINTAINER Nathanael Jones
 
-#  && apt-get install --no-install-recommends -y software-properties-common apt-utils \  
-#  && apt-add-repository ppa:brightbox/ruby-ng \
-# && apt-get update \
-
 RUN sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list' \
   && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
   && apt-get update \
   && apt-get upgrade -y \
   && apt-get install --no-install-recommends -y \
-  sudo build-essential nasm dh-autoreconf pkg-config ca-certificates \
+  sudo build-essential nasm dh-autoreconf pkg-config ca-certificates cmake3  \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -25,7 +21,7 @@ RUN sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-
 
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
-  wget git zip libcurl4-openssl-dev libelf-dev libdw-dev curl ccache libpng-dev libssl-dev  \
+  wget zip libcurl4-openssl-dev libelf-dev libdw-dev curl libssl-dev zlib1g-dev  \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -40,8 +36,6 @@ RUN apt-get update \
   && apt-get install --no-install-recommends -y \
   luajit \
   ruby-dev ruby-bundler \
-  python-minimal python-pip python-setuptools \
-  && pip install conan \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -51,21 +45,6 @@ RUN apt-get update \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
   && sudo chmod 640 /var/cache/apt/archives/lock
-
-# Install CMake 3.4.1 (minimal)
-# Mirrored for speed from https://cmake.org/files/v3.4/cmake-3.4.1-Linux-x86_64.tar.gz
-RUN wget  -nv https://s3.amazonaws.com/public-unit-test-resources/cmake-3.4.1-Linux-x86_64.tar.gz \
-    && tar -xzf cmake-3.4.1-Linux-x86_64.tar.gz \
-    && cp cmake-3.4.1-Linux-x86_64/bin/cmake /usr/bin/cmake \
-    && cp cmake-3.4.1-Linux-x86_64/bin/ctest /usr/bin/ctest \
-    && cp -fR cmake-3.4.1-Linux-x86_64/share/* /usr/share \
-    && rm -rf cmake-3.4.1-Linux-x86_64 && rm cmake-3.4.1-Linux-x86_64.tar.gz
-
-# Install DSSIM (minimal)
-RUN wget  -nv -O dssim.tar.gz https://github.com/pornel/dssim/archive/c6ad29c5a2dc37d8610120486f09eda145621c84.tar.gz \
-    && tar xvzf dssim.tar.gz && rm dssim.tar.gz && mv dssim-c6ad29c5a2dc37d8610120486f09eda145621c84 dssim \
-    && cd dssim && make && sudo cp bin/dssim /usr/local/bin/dssim && cd .. && rm -rf dssim 
-
 
 # Install kcov
 RUN wget  -nv -O kcov.tar.gz https://github.com/SimonKagstrom/kcov/archive/master.tar.gz \
@@ -111,10 +90,7 @@ RUN groupadd 1001 -g 1001 &&\
 
 USER conan
 
-
-ENV PATH=/usr/lib/ccache:$PATH
 ENV PATH=/home/conan/.cargo/bin:$PATH
-
 
 #Install nightly Rust and make default
 RUN RUSTVER="nightly-2018-02-11" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
@@ -127,6 +103,10 @@ RUN RUSTVER="nightly-2018-02-11" && curl https://sh.rustup.rs -sSf | sh -s -- -y
     && rustup show \
     && rustc -V
 
-RUN conan user
+RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3
+
+RUN PKG_CONFIG_ALL_STATIC=1 cargo install dssim
+RUN PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
+
 
 WORKDIR /home/conan/imageflow
