@@ -109,5 +109,4 @@ RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozil
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install dssim
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
 
-
 WORKDIR /home/conan/imageflow
