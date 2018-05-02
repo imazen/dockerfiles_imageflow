@@ -53,8 +53,6 @@ RUN apt-get update \
   && apt-get install --no-install-recommends -y \
   ruby-dev ruby-bundler rubygems-integration \
   luajit \
-  python-minimal python-pip python-setuptools \
-  && pip install conan \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -75,9 +73,9 @@ RUN wget -nv https://s3.amazonaws.com/public-unit-test-resources/cmake-3.4.1-Lin
     && rm -rf cmake-3.4.1-Linux-x86_64 && rm cmake-3.4.1-Linux-x86_64.tar.gz
 
 # Install DSSIM (minimal)
-RUN wget -nv  -O dssim.tar.gz https://github.com/pornel/dssim/archive/c6ad29c5a2dc37d8610120486f09eda145621c84.tar.gz \
-    && tar xvzf dssim.tar.gz && rm dssim.tar.gz && mv dssim-c6ad29c5a2dc37d8610120486f09eda145621c84 dssim \
-    && cd dssim && make && sudo cp bin/dssim /usr/local/bin/dssim && cd .. && rm -rf dssim 
+#RUN wget -nv  -O dssim.tar.gz https://github.com/pornel/dssim/archive/c6ad29c5a2dc37d8610120486f09eda145621c84.tar.gz \
+#    && tar xvzf dssim.tar.gz && rm dssim.tar.gz && mv dssim-c6ad29c5a2dc37d8610120486f09eda145621c84 dssim \
+#    && cd dssim && make && sudo cp bin/dssim /usr/local/bin/dssim && cd .. && rm -rf dssim 
 
 
 # Install lcov
@@ -148,7 +146,7 @@ ENV PATH=/home/conan/.cargo/bin:$PATH
 
 
 #Install nightly Rust and make default
-RUN RUSTVER="nightly-2018-02-11" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
+RUN RUSTVER="nightly-2018-04-04" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
     && rustup default $RUSTVER \
     && HI=$(rustup which rustc) && HI=${HI%/bin/rustc} && export TOOLCHAIN_DIR=$HI && echo TOOLCHAIN_DIR=$TOOLCHAIN_DIR \
     && sudo rm -rf $TOOLCHAIN_DIR/share/doc \
@@ -158,7 +156,7 @@ RUN RUSTVER="nightly-2018-02-11" && curl https://sh.rustup.rs -sSf | sh -s -- -y
     && rustup show \
     && rustc -V
 
-
+RUN cargo install sscache
 
 
 RUN sudo mkdir -p /var/cache/apt/archives/partial \
@@ -176,9 +174,5 @@ RUN sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
   && sudo chmod 640 /var/cache/apt/archives/lock
-
-# RUN sudo pip install conan --upgrade
-
-RUN conan user
 
 WORKDIR /home/conan/imageflow
