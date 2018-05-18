@@ -51,7 +51,7 @@ RUN apt-get update \
     && bash -c 'rm -rf /usr/local/lib/valgrind/*-x86-*' \
     && bash -c 'rm -rf /usr/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
     && bash -c 'rm -rf /usr/local/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
-  && bash -c 'rm -rf /tmp/*' \
+  && bash -c 'rm -rf /tmp/* || true' \
   && bash -c 'rm -rf /var/tmp/*' \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
@@ -95,8 +95,7 @@ RUN RUSTVER="nightly-2018-05-16" && curl https://sh.rustup.rs -sSf | sh -s -- -y
     && rustc -V
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
-    && PKG_CONFIG_ALL_STATIC=1 cargo install dssim \
-    && PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
+    && PKG_CONFIG_ALL_STATIC=1 cargo install dssim
 
 WORKDIR /home/conan/imageflow
 

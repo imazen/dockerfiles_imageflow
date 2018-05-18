@@ -29,7 +29,7 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
   && bash -c 'rm -rf {/usr/share/doc,/usr/share/man,/var/cache,/usr/doc,/usr/local/share/doc,/usr/local/share/man}' \
-  && bash -c 'rm -rf /tmp/*' \
+  && bash -c 'rm -rf /tmp/* || true' \
   && bash -c 'rm -rf /var/tmp/*' \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
@@ -70,7 +70,7 @@ RUN VALGRIND_VER="valgrind-3.12.0" \
   && bash -c 'rm -rf /usr/local/lib/valgrind/*-x86-*' \
   && bash -c 'rm -rf /usr/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
   && bash -c 'rm -rf /usr/local/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
-  && bash -c 'rm -rf /tmp/*' \
+  && bash -c 'rm -rf /tmp/* || true' \
   && bash -c 'rm -rf /var/tmp/*' 
 
 
@@ -99,8 +99,7 @@ RUN RUSTVER="nightly-2018-05-15" && curl https://sh.rustup.rs -sSf | sh -s -- -y
     && rustc -V
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
-    && PKG_CONFIG_ALL_STATIC=1 cargo install dssim \
-    && PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
+    && PKG_CONFIG_ALL_STATIC=1 cargo install dssim
 
 WORKDIR /home/conan/imageflow
 

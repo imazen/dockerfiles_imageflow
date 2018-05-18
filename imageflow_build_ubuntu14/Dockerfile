@@ -27,7 +27,7 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsof
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
   && bash -c 'rm -rf {/usr/share/doc,/usr/share/man,/var/cache,/usr/doc,/usr/local/share/doc,/usr/local/share/man}' \
-  && bash -c 'rm -f /tmp/*' \
+  && bash -c 'rm -f /tmp/* || true' \
   && bash -c 'rm -f /var/tmp/*' \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
