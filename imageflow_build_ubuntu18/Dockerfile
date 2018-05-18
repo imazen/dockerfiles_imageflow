@@ -36,12 +36,9 @@ RUN apt-get update \
     && apt-key adv --keyserver packages.microsoft.com --recv-keys 52E16F86FEE04B979B07E28DB02C46DF417A0893 \
     && apt-get update \
     && apt-get install  --no-install-recommends -y -q \
-    make dpkg-dev g++-8 gcc-8 cmake nasm dh-autoreconf pkg-config \
+    build-essential cmake nasm dh-autoreconf pkg-config \
     git zip curl ccache libpng-dev libssl-dev wget \
     libcurl4-openssl-dev libelf-dev libdw-dev \
-  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 90 \
-  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 90 \
-  && apt-get install --no-install-recommends -y -q \
   ruby-dev ruby-bundler rubygems-integration luajit \
   python-minimal python-pip python-setuptools valgrind dotnet-sdk-2.1.105 \
   && apt-get clean -y \
