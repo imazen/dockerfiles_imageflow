@@ -1,23 +1,15 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="imageflow_build_ubuntu_18/Dockerfile" type="docker-deploy" factoryName="dockerfile" singleton="true" server-name="Docker">
+  <configuration default="false" name="imageflow_build_ubuntu16/Dockerfile" type="docker-deploy" factoryName="dockerfile" singleton="true" server-name="Docker">
     <deployment type="dockerfile">
       <settings>
         <option name="JSONFilePath" value="" />
-        <option name="buildArgs">
-          <list>
-            <DockerEnvVarImpl>
-              <option name="name" value="--squash" />
-              <option name="value" value="" />
-            </DockerEnvVarImpl>
-          </list>
-        </option>
         <option name="buildOnly" value="true" />
         <option name="command" value="" />
         <option name="commandLineOptions" value="" />
         <option name="containerName" value="" />
         <option name="entrypoint" value="" />
-        <option name="imageTag" value="imazen/imageflow_build_ubuntu_18" />
-        <option name="sourceFilePath" value="imageflow_build_ubuntu_18/Dockerfile" />
+        <option name="imageTag" value="imazen/imageflow_build_ubuntu16" />
+        <option name="sourceFilePath" value="imageflow_build_ubuntu16/Dockerfile" />
         <option name="startBrowserSettings">
           <browser url="http://127.0.0.1" />
         </option>

@@ -94,7 +94,9 @@ RUN RUSTVER="nightly-2018-05-16" && curl https://sh.rustup.rs -sSf | sh -s -- -y
     && rustup show \
     && rustc -V
 
-RUN cargo install sccache && cargo install dssim
+RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
+    && PKG_CONFIG_ALL_STATIC=1 cargo install dssim \
+    && PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
 
 WORKDIR /home/conan/imageflow
 
