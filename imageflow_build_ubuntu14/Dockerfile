@@ -21,7 +21,6 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsof
   && apt-get install --no-install-recommends -y \
   luajit \
   python-minimal \
-  dotnet-sdk-2.1.200 \
   ruby-dev ruby-bundler \
   && apt-get clean -y \
   && apt-get autoremove -y \
@@ -32,6 +31,9 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsof
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
   && sudo chmod 640 /var/cache/apt/archives/lock
+
+
+#  dotnet-sdk-2.1.200 \
 
 # Install kcov
 RUN wget  -nv -O kcov.tar.gz https://github.com/SimonKagstrom/kcov/archive/master.tar.gz \
@@ -75,7 +77,6 @@ RUN RUSTVER="nightly-2018-05-15" && curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
     && PKG_CONFIG_ALL_STATIC=1 cargo install dssim \
-    && PKG_CONFIG_ALL_STATIC=1 cargo install cargo-tarpaulin
 
 WORKDIR /home/conan/imageflow
 

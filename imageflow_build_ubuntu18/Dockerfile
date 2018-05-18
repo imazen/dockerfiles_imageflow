@@ -40,7 +40,7 @@ RUN apt-get update \
     git zip curl ccache libpng-dev libssl-dev wget \
     libcurl4-openssl-dev libelf-dev libdw-dev \
   ruby-dev ruby-bundler rubygems-integration luajit \
-  python-minimal python-pip python-setuptools valgrind dotnet-sdk-2.1.105 \
+  python-minimal python-pip python-setuptools valgrind \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -53,6 +53,8 @@ RUN apt-get update \
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
   && sudo chmod 640 /var/cache/apt/archives/lock
+
+# dotnet-sdk-2.1.105
 
 # Install lcov and  coveralls-lcov
 RUN wget -nv  -O lcov.tar.gz http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz \

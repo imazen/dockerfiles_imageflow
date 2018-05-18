@@ -24,7 +24,6 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
   ruby-dev ruby-bundler rubygems-integration \
   luajit \
   python-minimal python-pip python-setuptools \
-  dotnet-sdk-2.1.200 \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -34,6 +33,9 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
   && sudo mkdir -p /var/cache/apt/archives/partial \
   && sudo touch /var/cache/apt/archives/lock \
   && sudo chmod 640 /var/cache/apt/archives/lock
+
+
+#dotnet-sdk-2.1.200 \
 
 # Install CMake 3.4.1 (minimal)
 # Mirrored for speed from https://cmake.org/files/v3.4/cmake-3.4.1-Linux-x86_64.tar.gz
