@@ -62,8 +62,6 @@ RUN groupadd 1001 -g 1001 &&\
 
 USER imageflow
 
-WORKDIR /home/imageflow/imageflow
-
 ENV PATH=/home/imageflow/.cargo/bin:$PATH
 
 #Install beta Rust and make default
@@ -79,5 +77,8 @@ RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
     && PKG_CONFIG_ALL_STATIC=1 cargo install dssim
+
+WORKDIR /home/imageflow/imageflow
+
 
 MAINTAINER Nathanael Jones

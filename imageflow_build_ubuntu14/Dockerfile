@@ -1,5 +1,6 @@
 FROM ubuntu:trusty
 
+# We'll leave the Ubuntu 14.04 and 18.04 images light, and only install valgrind/coverage/bindings on 16.04
 RUN apt-get update \
   && apt-get upgrade -y \
   && apt-get install --no-install-recommends -y \
@@ -23,9 +24,9 @@ RUN groupadd 1001 -g 1001 &&\
 
 USER imageflow
 
-WORKDIR /home/imageflow/imageflow
-
 #Install beta Rust and make default
+
+ENV PATH=/home/imageflow/.cargo/bin:$PATH
 RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
     && rustup default $RUSTVER \
     && HI=$(rustup which rustc) && HI=${HI%/bin/rustc} && export TOOLCHAIN_DIR=$HI && echo TOOLCHAIN_DIR=$TOOLCHAIN_DIR \
@@ -36,9 +37,10 @@ RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --
     && rustup show \
     && rustc -V
 
-ENV PATH=/home/imageflow/.cargo/bin:$PATH
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
     && PKG_CONFIG_ALL_STATIC=1 cargo install dssim \
+
+WORKDIR /home/imageflow/imageflow
 
 MAINTAINER Nathanael Jones
