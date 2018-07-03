@@ -4,7 +4,7 @@ RUN  apt-get update \
   && apt-get upgrade -y \
   && apt-get install --no-install-recommends -y \
   sudo build-essential nasm dh-autoreconf pkg-config ca-certificates gnupg \
-  git zip curl ccache libpng-dev libssl-dev wget libc6-dbg  \
+  git zip curl libpng-dev libssl-dev wget libc6-dbg  \
   libcurl4-openssl-dev libelf-dev libdw-dev apt-transport-https \
   && apt-get clean -y \
   && apt-get autoremove -y \
@@ -78,19 +78,19 @@ RUN VALGRIND_VER="valgrind-3.12.0" \
 
 RUN groupadd 1001 -g 1001 &&\
     groupadd 1000 -g 1000 &&\
-    useradd -ms /bin/bash conan -g 1001 -G 1000 &&\
-    echo "conan:conan" | chpasswd && adduser conan sudo &&\
-    echo "conan ALL= NOPASSWD: ALL\n" >> /etc/sudoers &&\
-    mkdir -p /home/conan/.conan && sudo chown conan: /home/conan/.conan
+    useradd -ms /bin/bash imageflow -g 1001 -G 1000 &&\
+    echo "imageflow:imageflow" | chpasswd && adduser imageflow sudo &&\
+    echo "imageflow ALL= NOPASSWD: ALL\n" >> /etc/sudoers
 
-USER conan
+USER imageflow
 
-ENV PATH=/usr/lib/ccache:$PATH
-ENV PATH=/home/conan/.cargo/bin:$PATH
+WORKDIR /home/imageflow/imageflow
+
+ENV PATH=/home/imageflow/.cargo/bin:$PATH
 
 
-#Install nightly Rust and make default
-RUN RUSTVER="nightly-2018-05-15" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
+#Install beta Rust and make default
+RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
     && rustup default $RUSTVER \
     && HI=$(rustup which rustc) && HI=${HI%/bin/rustc} && export TOOLCHAIN_DIR=$HI && echo TOOLCHAIN_DIR=$TOOLCHAIN_DIR \
     && sudo rm -rf $TOOLCHAIN_DIR/share/doc \
@@ -102,7 +102,5 @@ RUN RUSTVER="nightly-2018-05-15" && curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
     && PKG_CONFIG_ALL_STATIC=1 cargo install dssim
-
-WORKDIR /home/conan/imageflow
 
 MAINTAINER Nathanael Jones
