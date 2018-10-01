@@ -1,6 +1,6 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
-MAINTAINER Nathanael Jones 
+MAINTAINER Lilith River
 
 ARG BASE_OS_SOURCE_COMMIT
 ARG BASE_OS_DOCKER_TAG
