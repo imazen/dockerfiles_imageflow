@@ -7,4 +7,4 @@
 It should be rebuilt every commit, master -> latest, (v[0-9].*) -> $1
 
 
-ubuntu:xenial with imageflow user account - updated with sudo wget libcurl4-openssl-dev  curl libssl-dev ca-certificates libpng-dev 
+ubuntu:bionic with imageflow user account - updated with sudo wget libcurl4-openssl-dev  curl libssl-dev ca-certificates libpng-dev

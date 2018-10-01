@@ -73,7 +73,7 @@ RUN VALGRIND_VER="valgrind-3.12.0" \
   && bash -c 'rm -rf /usr/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
   && bash -c 'rm -rf /usr/local/lib/valgrind/{power,mips,s390,arm,32bit,i386}*' \
   && bash -c 'rm -rf /tmp/* || true' \
-  && bash -c 'rm -rf /var/tmp/*' 
+  && bash -c 'rm -rf /var/tmp/*'
 
 
 RUN groupadd 1001 -g 1001 &&\
@@ -88,7 +88,7 @@ ENV PATH=/home/imageflow/.cargo/bin:$PATH
 
 
 #Install beta Rust and make default
-RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
+RUN RUSTVER="stable" && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTVER -v \
     && rustup default $RUSTVER \
     && HI=$(rustup which rustc) && HI=${HI%/bin/rustc} && export TOOLCHAIN_DIR=$HI && echo TOOLCHAIN_DIR=$TOOLCHAIN_DIR \
     && sudo rm -rf $TOOLCHAIN_DIR/share/doc \
@@ -101,6 +101,6 @@ RUN RUSTVER="beta-2018-06-30" && curl https://sh.rustup.rs -sSf | sh -s -- -y --
 RUN PKG_CONFIG_ALL_STATIC=1 cargo install --force --git=https://github.com/mozilla/sccache.git --features=s3 \
     && PKG_CONFIG_ALL_STATIC=1 cargo install dssim
 
-MAINTAINER Nathanael Jones
+MAINTAINER Lilith River
 
 WORKDIR /home/imageflow/imageflow

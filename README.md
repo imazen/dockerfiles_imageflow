@@ -3,8 +3,9 @@
 Dockerfiles for Imageflow build environments and base OSes
 
 * imageflow_base_os is for deployment; it is not used during build. User `imageflow`
-* imageflow_build_ubuntu14 is used for the gcc48 release. User `conan`
-* imageflow_build_ubunut16 is used for the gcc54 release. User `conan`
+* imageflow_build_ubuntu14 is used for the gcc48 release. User `imageflow`
+* imageflow_build_ubunut16 is used for the gcc54 release. User `imageflow`
+* imageflow_build_ubunut18 is used for the gcc73 release. User `imageflow`
 
 
 ## Building
